@@ -5,30 +5,40 @@ export default function CategoryCard({ category }) {
 
   return (
     <Link to={`/category/${slug}`} className="block group">
-      <div className="card hover:shadow-card-hover transition-all duration-300 group-hover:-translate-y-1 h-full">
-        {/* Icon */}
-        <div
-          className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 transition-transform duration-300 group-hover:scale-110"
-          style={{ background: color + '18' }}
-        >
-          {icon}
-        </div>
-
-        {/* Content */}
-        <h3 className="font-bold text-slate-800 text-base mb-1 group-hover:text-indigo-600 transition-colors">
-          {name}
-        </h3>
-        <p className="text-sm text-slate-500 line-clamp-2 mb-4">{description}</p>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between mt-auto">
+      <div
+        className="bg-white rounded-2xl p-5 h-full transition-all duration-300 group-hover:-translate-y-1"
+        style={{ border: '2px solid #f0ede8', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}
+      >
+        {/* Icon + count row */}
+        <div className="flex items-start justify-between mb-4">
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl transition-transform duration-300 group-hover:scale-110"
+            style={{ background: color + '18', border: `2px solid ${color}25` }}
+          >
+            {icon}
+          </div>
           <span
-            className="text-xs font-semibold px-2.5 py-1 rounded-full"
-            style={{ background: color + '20', color }}
+            className="text-xs font-black px-2.5 py-1 rounded-full"
+            style={{ background: openCount > 0 ? '#fff8e6' : '#f5f5f4', color: openCount > 0 ? '#d97706' : '#a8a29e', border: openCount > 0 ? '1.5px solid #fde68a' : '1.5px solid #e7e5e4' }}
           >
             {openCount} open
           </span>
-          <span className="text-xs text-slate-400 group-hover:text-indigo-500 transition-colors font-medium">
+        </div>
+
+        <h3
+          className="font-bold text-stone-900 text-base mb-1.5 group-hover:text-amber-700 transition-colors"
+          style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+        >
+          {name}
+        </h3>
+        <p className="text-xs text-stone-500 line-clamp-2 mb-4 leading-relaxed">{description}</p>
+
+        <div className="flex items-center justify-between">
+          <div className="w-8 h-0.5 rounded-full transition-all duration-300 group-hover:w-12" style={{ background: color }} />
+          <span
+            className="text-xs font-bold transition-colors duration-200"
+            style={{ color: '#d1d5db' }}
+          >
             Browse →
           </span>
         </div>

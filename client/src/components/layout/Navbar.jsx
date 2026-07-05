@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useState } from 'react';
-import { Menu, X, Hexagon, PlusCircle, LayoutGrid, LogOut, User } from 'lucide-react';
+import { Menu, X, PlusCircle, LayoutGrid, LogOut, User, Zap } from 'lucide-react';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -9,72 +9,66 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
+  const handleLogout = () => { logout(); navigate('/'); };
 
   const initials = user?.name
-    ? user.name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
+    ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
     : '?';
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md" style={{ borderBottom: '2px solid #f0ede8' }}>
       <div className="page-container">
         <div className="flex items-center justify-between h-16">
+
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 font-bold text-xl text-slate-800">
-            <div className="w-8 h-8 rounded-xl gradient-bg flex items-center justify-center shadow-md">
-              <Hexagon className="w-4 h-4 text-white" fill="white" />
+          <Link to="/" className="flex items-center gap-2 font-black text-xl tracking-tight text-stone-900" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#f59e0b' }}>
+              <span className="text-black text-sm font-black">SH</span>
             </div>
-            <span>
-              Solve<span className="gradient-text">Hive</span>
-            </span>
+            Solve<span style={{ color: '#f59e0b' }}>Hive</span>
           </Link>
 
-          {/* Center Nav */}
+          {/* Center links */}
           <div className="hidden md:flex items-center gap-1">
-            <Link to="/browse" className="btn-ghost">
-              <LayoutGrid className="w-4 h-4" />
-              Browse
+            <Link to="/browse" className="btn-ghost font-semibold">
+              <LayoutGrid className="w-4 h-4" /> Browse
             </Link>
             {user && (
-              <Link to="/query/new" className="btn-ghost">
-                <PlusCircle className="w-4 h-4" />
-                Ask a Question
+              <Link to="/query/new" className="btn-ghost font-semibold">
+                <PlusCircle className="w-4 h-4" /> Ask
               </Link>
             )}
           </div>
 
-          {/* Right Side */}
+          {/* Right */}
           <div className="hidden md:flex items-center gap-3">
             {user ? (
               <div className="relative">
                 <button
                   id="profile-menu-btn"
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-2 p-1 rounded-xl hover:bg-slate-100 transition-colors"
+                  className="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-full border-2 border-stone-200 hover:border-amber-400 transition-all duration-200"
                 >
-                  <div className="avatar w-8 h-8 text-sm">{initials}</div>
+                  <div className="avatar w-7 h-7 text-xs font-black">{initials}</div>
                   <div className="text-left">
-                    <p className="text-sm font-semibold text-slate-800 leading-none">{user.name}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">{user.respectPoints || 0} pts</p>
+                    <p className="text-xs font-bold text-stone-800 leading-none">{user.name}</p>
+                    <p className="text-xs text-amber-600 font-semibold mt-0.5">{user.respectPoints || 0} pts</p>
                   </div>
                 </button>
 
                 {profileOpen && (
-                  <div className="absolute right-0 top-12 w-48 bg-white rounded-2xl shadow-card-hover border border-slate-100 py-2 animate-fade-in">
+                  <div className="absolute right-0 top-12 w-48 bg-white rounded-2xl shadow-xl border-2 border-stone-100 py-2 animate-fade-in">
                     <Link
                       to={`/profile/${user._id}`}
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-stone-700 hover:bg-amber-50 hover:text-amber-800"
                       onClick={() => setProfileOpen(false)}
                     >
                       <User className="w-4 h-4" /> My Profile
                     </Link>
-                    <div className="divider my-1" />
+                    <div className="border-t border-stone-100 my-1" />
                     <button
                       onClick={handleLogout}
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 w-full"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-red-500 hover:bg-red-50 w-full"
                     >
                       <LogOut className="w-4 h-4" /> Sign Out
                     </button>
@@ -83,55 +77,34 @@ export default function Navbar() {
               </div>
             ) : (
               <>
-                <Link to="/login" className="btn-secondary">
-                  Sign In
-                </Link>
-                <Link to="/signup" className="btn-primary">
-                  Get Started
+                <Link to="/login" className="btn-secondary text-xs px-5 py-2.5">Sign In</Link>
+                <Link to="/signup" className="btn-primary text-xs px-5 py-2.5">
+                  <Zap className="w-3.5 h-3.5" /> Get Started
                 </Link>
               </>
             )}
           </div>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden p-2 rounded-xl hover:bg-slate-100"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
+          {/* Mobile */}
+          <button className="md:hidden p-2 rounded-xl hover:bg-stone-100" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden py-4 border-t border-slate-100 animate-fade-in space-y-1">
-            <Link
-              to="/browse"
-              className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50"
-              onClick={() => setMenuOpen(false)}
-            >
+          <div className="md:hidden py-4 border-t-2 border-stone-100 animate-fade-in space-y-1">
+            <Link to="/browse" className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-stone-700 hover:bg-amber-50" onClick={() => setMenuOpen(false)}>
               <LayoutGrid className="w-4 h-4" /> Browse
             </Link>
             {user ? (
               <>
-                <Link
-                  to="/query/new"
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50"
-                  onClick={() => setMenuOpen(false)}
-                >
+                <Link to="/query/new" className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-stone-700 hover:bg-amber-50" onClick={() => setMenuOpen(false)}>
                   <PlusCircle className="w-4 h-4" /> Ask a Question
                 </Link>
-                <Link
-                  to={`/profile/${user._id}`}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <User className="w-4 h-4" /> My Profile
+                <Link to={`/profile/${user._id}`} className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-stone-700 hover:bg-amber-50" onClick={() => setMenuOpen(false)}>
+                  <User className="w-4 h-4" /> Profile
                 </Link>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 w-full"
-                >
+                <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-red-500 hover:bg-red-50 w-full">
                   <LogOut className="w-4 h-4" /> Sign Out
                 </button>
               </>
