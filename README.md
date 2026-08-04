@@ -1,5 +1,6 @@
 # SolveHive 🐝
 
+## live at : https://solvehive.onrender.com/
 A full-stack MERN community Q&A platform where anyone can post real-world questions and get answers — earning reputation and badges in return.
 
 ---
